@@ -1,0 +1,598 @@
+{
+	"info": {
+		"_postman_id": "e4c28145-a543-43e9-a682-5f7898bc17d7",
+		"name": "AT & T",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13991338"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register CUSTOMER",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test User\",\r\n    \"email\": \"test@example.com\", \r\n    \"password\": \"password\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/register/customer",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"register",
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzYzNzA4OSwiZXhwIjoxNzM3NjQwNjg5fQ.a9Z8TnouB40BBDfC3NQ5LPqY4c4KroaxaW45e5VtI9t3Tn-ekndQBfe1MK8bcTNmj15DwQik05ibiqL2Pzv_bw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Test User\",\r\n    \"email\": \"admin2@example.com\", \r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/register/admin",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"register",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as ADMIN",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@example.com\",\r\n    \"password\": \"admin\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as CUSTOMER",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Add movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzY0NzE0MywiZXhwIjoxNzM3NjUwNzQzfQ.xjj5rSW3EwmPtYb1P5ei-KMA1SL0ZfUIFqwRGlvEg6NnMmbWPjh1woDZekd5lubCb9sTTaDk9C5yQTVTX1kT0w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//     \"title\": \"John Wick\",\r\n//     \"genre\": \"Action Thriller\",\r\n//     \"duration\": 101,\r\n//     \"rating\": 7.4,\r\n//     \"releaseYear\": 2014\r\n// }\r\n\r\n// {\r\n//     \"title\": \"Inception\", \r\n//     \"genre\": \"Science Fiction\",\r\n//     \"duration\": 148,\r\n//     \"rating\": 8.8,\r\n//     \"releaseYear\": 2010\r\n// }\r\n\r\n{\r\n    \"title\": \"Forrest Gump\",\r\n    \"genre\": \"Drama, Romance\",\r\n    \"duration\": 142,\r\n    \"rating\": 8.8,\r\n    \"releaseYear\": 1994\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/movies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get movies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NjM3NzMyLCJleHAiOjE3Mzc2NDEzMzJ9.Vpt2prAruYQyHIty6gkNldmKtfKzS9tsMgCRqlT2rDUO3adrzXCB9u3BaEHQYr5fCZN0_wQivBW82hrA2lLcVw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/movies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzYzODQwMiwiZXhwIjoxNzM3NjQyMDAyfQ.LYmXQ5GooX7D6LLQpCUNv3zVvHnYLWewbDgveB8Xdn_qA21Yt-1BpPXE3exiOEUH6N6k_mpM-Bz5o5HrOQIoFw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2,\r\n    \"title\": \"Forrest Gump1\",\r\n    \"genre\": \"Drama, Romance1\",\r\n    \"duration\": 1412,\r\n    \"rating\": 8.88,\r\n    \"releaseYear\": 19894,\r\n    \"showtimes\": null\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/movies",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzYzODQwMiwiZXhwIjoxNzM3NjQyMDAyfQ.LYmXQ5GooX7D6LLQpCUNv3zVvHnYLWewbDgveB8Xdn_qA21Yt-1BpPXE3exiOEUH6N6k_mpM-Bz5o5HrOQIoFw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/movies/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"movies",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get movie by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NjM3NzMyLCJleHAiOjE3Mzc2NDEzMzJ9.Vpt2prAruYQyHIty6gkNldmKtfKzS9tsMgCRqlT2rDUO3adrzXCB9u3BaEHQYr5fCZN0_wQivBW82hrA2lLcVw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/movies/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"movies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Showtimes",
+			"item": [
+				{
+					"name": "Add showtime",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzY0NzE0MywiZXhwIjoxNzM3NjUwNzQzfQ.xjj5rSW3EwmPtYb1P5ei-KMA1SL0ZfUIFqwRGlvEg6NnMmbWPjh1woDZekd5lubCb9sTTaDk9C5yQTVTX1kT0w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"movie\": {\r\n    \"id\": 1\r\n  },\r\n  \"theater\": \"Cinema City122\",\r\n  \"startTime\": \"2025-02-01T20:00:00\",\r\n  \"endTime\": \"2025-02-01T22:00:00\",\r\n  \"availableSeats\": 100\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/showtimes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"showtimes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update showtime",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzYzODI0NSwiZXhwIjoxNzM3NjQxODQ1fQ.8YKi08yPCUTDo6SeQAI-fgjc-Uy_HdM85FgZLsq-u9vWz3Nt3oRJK0ToNAYfYku6UiYjCnSSBIxWGWM6i5ye5Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 2,\r\n  \"movie\": {\r\n    \"id\": 3\r\n  },\r\n  \"theater\": \"Cinema City11\",\r\n  \"startTime\": \"2025-02-01T19:00:00\",\r\n  \"endTime\": \"2025-02-01T21:00:00\",\r\n  \"availableSeats\": 90\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/showtimes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"showtimes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete showtime",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VAZXgxYW0xcGxlY29tIiwiaWF0IjoxNzM3NjM2Nzg0LCJleHAiOjE3Mzc2NDAzODR9.vJqTacJ69eWpVsnfqU7p8vc7zNOOuVYIAYL_JvvqgJimEZaK1mkM2fM0Rw5UmV6nuNYUWwBoiaInfVGx_x6RQA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/showtimes/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"showtimes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get showtimes by movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBleGFtcGxlLmNvbSIsImlhdCI6MTczNzYzODQwMiwiZXhwIjoxNzM3NjQyMDAyfQ.LYmXQ5GooX7D6LLQpCUNv3zVvHnYLWewbDgveB8Xdn_qA21Yt-1BpPXE3exiOEUH6N6k_mpM-Bz5o5HrOQIoFw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/showtimes/movie/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"showtimes",
+								"movie",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get showtimes by theater",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VAZXgxYW0xcGxlY29tIiwiaWF0IjoxNzM3NjM2Nzg0LCJleHAiOjE3Mzc2NDAzODR9.vJqTacJ69eWpVsnfqU7p8vc7zNOOuVYIAYL_JvvqgJimEZaK1mkM2fM0Rw5UmV6nuNYUWwBoiaInfVGx_x6RQA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/showtimes/theater/Cinema City",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"showtimes",
+								"theater",
+								"Cinema City"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tickets",
+			"item": [
+				{
+					"name": "Book ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NjQ3MjA4LCJleHAiOjE3Mzc2NTA4MDh9.dB3mmX3s5qJ6TR5cPodjvVBEVgzBwt_a86rlrTSKHmhTclsO6cxqllZ61KLI74hYzlzmY9JgN0V_WeMm5PT7Cg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"showtime\": {\r\n    \"id\": 1\r\n  },\r\n  \"user\": {\r\n    \"id\": 2\r\n  },\r\n  \"seatNumber\": \"4\",\r\n  \"price\": 12.50\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/tickets",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get tickets by showtime",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NjQ3MDY4LCJleHAiOjE3Mzc2NTA2Njh9.Nmvro0o7m7p2SEoIisndZVYHpAW7Y3otwphCug-ny6WpPnLnUE2OxWqQH2BrCOsRq_h0v9-zlk0OdgZieSTSLA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/tickets/showtime/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tickets",
+								"showtime",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get tickets by authenticated user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNzM3NjQ2MjYzLCJleHAiOjE3Mzc2NDk4NjN9.A28PijzgR2gbL7CnqpvGRvvHT6m33-Fm9bqlLR4Q1hTCRZlVzLp3TLi9KlV82HxpuuPtYQLmob_7Hx3MOmlPlQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/tickets",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
