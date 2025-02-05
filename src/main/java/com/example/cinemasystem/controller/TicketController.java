@@ -1,9 +1,10 @@
 package com.example.cinemasystem.controller;
 
+import com.example.cinemasystem.dto.TicketBookingRequestDto;
 import com.example.cinemasystem.dto.TicketResponseDto;
-import com.example.cinemasystem.model.Ticket;
 import com.example.cinemasystem.service.TicketService;
-import java.util.List;
+import com.example.user.model.User;
+import com.example.user.service.UserDetailsImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -22,22 +23,25 @@ public class TicketController {
 
   private final TicketService ticketService;
 
-  // todo fix user details response
   @PostMapping
-  public ResponseEntity<TicketResponseDto> bookTicket(@RequestBody Ticket ticket) {
-    return ResponseEntity.ok(ticketService.bookTicket(ticket));
+  public ResponseEntity<TicketResponseDto> bookTicket(@RequestBody TicketBookingRequestDto ticketBookingRequestDto) {
+    return ResponseEntity.ok(ticketService.bookTicket(ticketBookingRequestDto, getAuthenticatedUser()));
   }
 
   @GetMapping
-  public ResponseEntity<List<TicketResponseDto>> getTicketsByAuthenticatedUser() {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String email = authentication.getName();
-    return ResponseEntity.ok(ticketService.getTicketsByUserEmail(email));
+  public ResponseEntity<TicketResponseDto> getTicketsByAuthenticatedUser() {
+    return ResponseEntity.ok(ticketService.getTickets(getAuthenticatedUser(), null));
   }
 
   @GetMapping("/showtime/{showtimeId}")
-  public ResponseEntity<List<TicketResponseDto>> getTicketsByShowtime(@PathVariable Long showtimeId) {
-    return ResponseEntity.ok(ticketService.getTicketsByShowtime(showtimeId));
+  public ResponseEntity<TicketResponseDto> getTicketsByAuthenticatedUserAndShowtimeId(@PathVariable Long showtimeId) {
+    return ResponseEntity.ok(ticketService.getTickets(getAuthenticatedUser(), showtimeId));
+  }
+
+  private User getAuthenticatedUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+    return principal.user();
   }
 
 }

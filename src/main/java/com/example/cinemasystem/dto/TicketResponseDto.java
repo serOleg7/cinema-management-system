@@ -1,17 +1,18 @@
 package com.example.cinemasystem.dto;
 
-import java.time.LocalDateTime;
+import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TicketResponseDto {
 
-  private Long id;
-  private UserDto user;
-  private ShowtimeDto showtime;
-  private String seatNumber;
-  private Double price;
-  private LocalDateTime bookingDate = LocalDateTime.now();
-  private String status = "CONFIRMED";
+  private String name;
+  private String userEmail;
+  private List<TicketDetailsDto> tickets;
 
 }
+

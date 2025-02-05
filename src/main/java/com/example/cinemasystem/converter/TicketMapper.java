@@ -1,53 +1,49 @@
 package com.example.cinemasystem.converter;
 
-import com.example.cinemasystem.dto.MovieDto;
-import com.example.cinemasystem.dto.ShowtimeDto;
+import com.example.cinemasystem.dto.TicketBookingRequestDto;
+import com.example.cinemasystem.dto.TicketDetailsDto;
 import com.example.cinemasystem.dto.TicketResponseDto;
-import com.example.cinemasystem.dto.UserDto;
+import com.example.cinemasystem.model.Showtime;
 import com.example.cinemasystem.model.Ticket;
+import com.example.user.model.User;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
 public class TicketMapper {
 
-  public TicketResponseDto toTicketResponseDto(Ticket ticket) {
-    TicketResponseDto dto = new TicketResponseDto();
+  public TicketResponseDto toTicketResponseDto(List<Ticket> tickets, User user) {
+    List<TicketDetailsDto> ticketDetails = tickets.stream()
+        .map(this::mapTicketDetails)
+        .toList();
 
-    dto.setId(ticket.getId());
-
-    // User mapping
-    UserDto userDto = new UserDto();
-    userDto.setId(ticket.getUser().getId());
-    userDto.setName(ticket.getUser().getName());
-    userDto.setEmail(ticket.getUser().getEmail());
-    dto.setUser(userDto);
-
-    // Showtime mapping
-    ShowtimeDto showtimeDto = new ShowtimeDto();
-    showtimeDto.setId(ticket.getShowtime().getId());
-    showtimeDto.setTheater(ticket.getShowtime().getTheater());
-    showtimeDto.setStartTime(ticket.getShowtime().getStartTime());
-    showtimeDto.setEndTime(ticket.getShowtime().getEndTime());
-
-    // Movie mapping
-    MovieDto movieDto = new MovieDto();
-    movieDto.setTitle(ticket.getShowtime().getMovie().getTitle());
-    movieDto.setGenre(ticket.getShowtime().getMovie().getGenre());
-    showtimeDto.setMovie(movieDto);
-
-    dto.setShowtime(showtimeDto);
-
-    dto.setSeatNumber(ticket.getSeatNumber());
-    dto.setPrice(ticket.getPrice());
-
-    return dto;
+    return new TicketResponseDto(
+        user.getName(),
+        user.getEmail(),
+        ticketDetails
+    );
   }
 
-  public List<TicketResponseDto> toTicketResponseDtoList(List<Ticket> tickets) {
-    return tickets.stream()
-        .map(this::toTicketResponseDto)
-        .toList();
+  private TicketDetailsDto mapTicketDetails(Ticket ticket) {
+    return new TicketDetailsDto(
+        ticket.getId(),
+        ticket.getSeatNumbers(),
+        ticket.getTotalPrice(),
+        ticket.getShowtime().getTheater(),
+        ticket.getShowtime().getStartTime(),
+        ticket.getShowtime().getEndTime(),
+        ticket.getShowtime().getMovie().getTitle(),
+        ticket.getPurchaseDate()
+    );
+  }
+
+  public Ticket toTicket(TicketBookingRequestDto bookingRequest, User user, Showtime showtime) {
+    Ticket ticket = new Ticket();
+    ticket.setUser(user);
+    ticket.setShowtime(showtime);
+    ticket.setSeatNumbers(bookingRequest.getSeatNumbers());
+    ticket.setTotalPrice(bookingRequest.getPricePerSeat() * bookingRequest.getSeatNumbers().size());
+    return ticket;
   }
 
 }

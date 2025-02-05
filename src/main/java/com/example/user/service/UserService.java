@@ -1,11 +1,13 @@
 package com.example.user.service;
 
+import com.example.common.exception.CustomHttpException;
 import com.example.user.dto.UserRegistrationDto;
 import com.example.user.model.User;
 import com.example.user.model.enums.Role;
 import com.example.user.repository.UserRepo;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,7 @@ public class UserService {
 
   private void validateUniqueEmail(String email) {
     if (userRepo.existsByEmail(email)) {
-      throw new RuntimeException("User with this email already exists");
+      throw new CustomHttpException(HttpStatus.CONFLICT, "User with this email already exists");
     }
   }
 

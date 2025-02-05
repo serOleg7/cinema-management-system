@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -59,6 +60,15 @@ public class ShowtimeService {
     return showtimeRepo.findByTheater(theater);
   }
 
+  @Transactional(propagation = Propagation.MANDATORY)
+  public Showtime reserveSeatsAndGetShowtime(Long showtimeId, List<String> seatNumbers) {
+    int updatedRows = showtimeRepo.tryReserveSeats(showtimeId, seatNumbers.size(), seatNumbers);
+    if (updatedRows == 0) {
+      throw new IllegalStateException("Unable to reserve seats. They may be already taken or showtime is full.");
+    }
+    return getShowtimeById(showtimeId);
+  }
+
   private void validateShowtime(Showtime showtime) {
     List<Showtime> overlappingShowtimes = showtimeRepo.findByTheaterAndStartTimeBetween(
             showtime.getTheater(),
@@ -72,13 +82,9 @@ public class ShowtimeService {
     }
   }
 
-  public Showtime getShowtimeByIdWithMovie(Long id) {
-    return showtimeRepo.findByIdWithMovie(id)
-        .orElseThrow(() -> new EntityNotFoundException("Showtime not found"));
-  }
-
   private Showtime getShowtimeById(Long id) {
     return showtimeRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Showtime not found"));
   }
+
 }
 

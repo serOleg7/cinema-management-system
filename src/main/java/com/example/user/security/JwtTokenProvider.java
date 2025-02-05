@@ -2,10 +2,12 @@ package com.example.user.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
+import jakarta.annotation.PostConstruct;
 import java.util.Date;
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -13,17 +15,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
-  private static final long JWT_TOKEN_VALIDITY = 60 * 60 * 1000;
-  private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+  @Value("${jwt.token.validity.ms}")
+  private long jwtTokenValidityMs;
+
+  @Value("${jwt.secret}")
+  private String jwtSecret;
+
+  private SecretKey secretKey;
+
+  @PostConstruct
+  public void init() {
+    byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+    secretKey = Keys.hmacShaKeyFor(keyBytes);
+  }
 
   public String generateToken(Authentication authentication) {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
     return Jwts.builder()
         .setSubject(userDetails.getUsername())
         .setIssuedAt(new Date())
-        .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY))
-        .signWith(secretKey, SignatureAlgorithm.HS512)
+        .setExpiration(new Date(System.currentTimeMillis() + jwtTokenValidityMs))
+        .signWith(secretKey)
         .compact();
   }
 
