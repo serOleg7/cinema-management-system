@@ -17,7 +17,13 @@ public interface ShowtimeRepo extends JpaRepository<Showtime, Long> {
 
   List<Showtime> findByTheater(String theater);
 
-  List<Showtime> findByTheaterAndStartTimeBetween(String theater, LocalDateTime start, LocalDateTime end);
+  @Query("""
+          SELECT COUNT(s) > 0 FROM Showtime s
+          WHERE s.theater = :theater
+          AND (s.startTime < :endTime AND s.endTime > :startTime)
+          AND (:showtimeId IS NULL OR s.id <> :showtimeId)
+      """)
+  boolean existsOverlappingShowtime(String theater, LocalDateTime startTime, LocalDateTime endTime, Long showtimeId);
 
   @Query("SELECT s FROM Showtime s JOIN FETCH s.movie WHERE s.id = :showtimeId")
   Optional<Showtime> findByIdWithMovie(Long showtimeId);

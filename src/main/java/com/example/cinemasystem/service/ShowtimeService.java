@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ShowtimeService {
 
+  public static final String OVERLAP_ERROR_MESSAGE = "Overlapping showtimes exist for this theater";
+
   private final ShowtimeRepo showtimeRepo;
   private final MovieService movieService;
 
@@ -31,6 +33,7 @@ public class ShowtimeService {
 
   @Transactional
   public Showtime updateShowtime(Showtime showtime) {
+    validateShowtime(showtime);
     Showtime existingShowtime = getShowtimeById(showtime.getId());
 
     Movie movie = movieService.getMovieById(showtime.getMovie().getId());
@@ -40,7 +43,6 @@ public class ShowtimeService {
     existingShowtime.setEndTime(showtime.getEndTime());
     existingShowtime.setAvailableSeats(showtime.getAvailableSeats());
 
-    validateShowtime(showtime);
     return existingShowtime;
   }
 
@@ -70,15 +72,15 @@ public class ShowtimeService {
   }
 
   private void validateShowtime(Showtime showtime) {
-    List<Showtime> overlappingShowtimes = showtimeRepo.findByTheaterAndStartTimeBetween(
-            showtime.getTheater(),
-            showtime.getStartTime(),
-            showtime.getEndTime()
-        ).stream()
-        .filter(existingShowtime -> !existingShowtime.getId().equals(showtime.getId()))
-        .toList();
-    if (!overlappingShowtimes.isEmpty()) {
-      throw new IllegalArgumentException("Overlapping showtimes exist for this theater");
+    boolean overlapExists = showtimeRepo.existsOverlappingShowtime(
+        showtime.getTheater(),
+        showtime.getStartTime(),
+        showtime.getEndTime(),
+        showtime.getId()
+    );
+
+    if (overlapExists) {
+      throw new IllegalArgumentException(OVERLAP_ERROR_MESSAGE);
     }
   }
 
